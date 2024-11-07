@@ -21,5 +21,7 @@ jobs:
     steps:
       - name: Pull Image from docker Hub
         run: docker pull moohiit/mern-backend:latest
+      - name: Delete old container
+        run: docker rm -f mern-backend-container
       - name: Run Docker Container
-        run: docker run -d -p 4000:4000 --name mern-backend-container -e MONGO_URL=${{secrets.MONGO_URL}} -e SECRET_KEY=${{secrets.SECRET_KEY}} -e ORIGIN_URL='${{secrets.ORIGIN_URL}}' moohiit/mern-backend
+        run: docker run -d -p 4000:4000 --name mern-backend-container -e MONGO_URL=${{secrets.MONGO_URL}} -e SECRET_KEY=${{secrets.SECRET_KEY}} -e ORIGIN_URL='${{secrets.ORIGIN_URL}}' moohiit/mern-backend 
