@@ -25,6 +25,10 @@ app.use(
 
 //api call here
 app.use("/api/user", userRoutes);
+//test route
+app.get("/", (req, res) => {
+  res.send("Hello from server");
+})
 
 //listen the port
 const PORT = process.env.PORT || 3000;
