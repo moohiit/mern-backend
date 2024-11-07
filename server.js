@@ -16,7 +16,7 @@ app.use(urlencoded({ extended: true }));
 // cors options
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow requests from this origin
+    origin: process.env.ORIGIN_URL, // Allow requests from this origin
     credentials: true, // Enable credentials like cookies
   })
 );

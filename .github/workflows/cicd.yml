@@ -1,0 +1,25 @@
+name: Deploy Node Application
+on:
+  push:
+    branches:
+      - main
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+      - name: Login to Docker Hub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p  ${{secrets.DOCKER_PASSWORD}}
+      - name: Build Docker Image
+        run: docker build -t moohiit/mern-backend .
+      - name: Publish/Push Image to Docker Hub
+        run: docker push moohiit/mern-backend:latest
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull Image from docker Hub
+        run: docker pull moohiit/mern-backend:latest
+      - name: Run Docker Container
+        run: docker run -d -p 4000:4000 --name mern-backend-container -e MONGO_URL=${{secrets.MONGO_URL}} -e SECRET_KEY=${{secrets.SECRET_KEY}} -e ORIGIN_URL='${{secrets.ORIGIN_URL}}' moohiit/mern-backend
